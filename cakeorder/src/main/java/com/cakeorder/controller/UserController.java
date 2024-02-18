@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -72,6 +75,57 @@ public class UserController {
 		}
 		return false;
 		
+	}
+	
+	@GetMapping("/getuser")
+	public User getall(@RequestParam("mailid")String mailid)
+	{
+		List<User> u = userdao.findAll();
+		for(int i=0;i<u.size();i++)
+		{
+			if(u.get(i).getUserMail().equals(mailid))
+			{
+				return u.get(i);
+			}
+		}
+		return user;
+		
+	}
+	
+	@PutMapping("/updateuser")
+	public String updateusers(@RequestBody User u)
+	{
+		System.out.println(u.getUserMail());
+		List<User> uu = userdao.findAll();
+		User p =null;
+		for(int i=0;i<uu.size();i++)
+		{
+			if(uu.get(i).getUserMail().equals(u.getUserMail()))
+			{
+				System.out.println("Hello");
+				p=uu.get(i);
+				p.setUserName(u.getUserName());
+				p.setUserPhonenumber(u.getUserPhonenumber());
+				userdao.save(p);
+			}
+		}
+		return "Updated";
+		
+	}
+	
+	@DeleteMapping("/deleteuser")
+	public String deleteuser(@RequestParam("usermail")String mailid)
+	{
+		List<User> uu = userdao.findAll();
+		for(int i=0;i<uu.size();i++)
+		{
+			if(uu.get(i).getUserMail().equals(mailid))
+			{
+				userdao.deleteById(uu.get(i).getUserId());
+				
+			}
+		}
+		return "User Deleted";
 	}
 	
 	

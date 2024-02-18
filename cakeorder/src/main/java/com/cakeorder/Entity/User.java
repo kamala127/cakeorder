@@ -1,8 +1,10 @@
 package com.cakeorder.Entity;
 
 
+
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +21,15 @@ public class User {
 	private String 	userMail;
 	private String userName;
 	private String password;
+	@Column(length = 10)
+	private String 	userPhonenumber;
+	
+	public String getUserPhonenumber() {
+		return userPhonenumber;
+	}
+	public void setUserPhonenumber(String userPhonenumber) {
+		this.userPhonenumber = userPhonenumber;
+	}
 	public long getUserId() {
 		return userId;
 	}
@@ -43,12 +54,14 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public User(long userId, String userMail, String userName, String password) {
+	
+	public User(long userId, String userMail, String userName, String password, String userPhonenumber) {
 		super();
 		this.userId = userId;
 		this.userMail = userMail;
 		this.userName = userName;
 		this.password = password;
+		this.userPhonenumber = userPhonenumber;
 	}
 	public User() {
 		super();
